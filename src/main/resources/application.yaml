@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: shop
+  datasource:
+#    url: jdbc:h2:file:/Users/ispylnev/Downloads/shop/data
+    username: admin
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console.enabled: true
+
+  flyway:
+    user: admin
+    password: password
+#    url: jdbc:h2:file:/Users/ispylnev/Downloads/shop/data

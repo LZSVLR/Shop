@@ -1,7 +1,8 @@
-package com.shop.services;
+package com.shop.service;
 
-import com.shop.dto.User;
+import com.shop.entity.User;
 import com.shop.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     //чтобы могли изменить данные в базе данных создаем:
     private final UserRepository userRepository;
@@ -29,3 +31,4 @@ public class UserService {
         userRepository.deleteById(id);
     }
 }
+

@@ -5,17 +5,17 @@ spring:
     name: shop
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/shopApp
-    username: root
-    password: 123
+    url: jdbc:postgresql://localhost:5432/shop
+    username: postgres
+    password: user
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
 
   flyway:
-    user: root
-    password: 123
-    url: jdbc:postgresql://localhost:5432/shopApp
+    user: postgres
+    password: user
+    url: jdbc:postgresql://localhost:5432/shop

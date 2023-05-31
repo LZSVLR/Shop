@@ -1,3 +1,4 @@
+
 CREATE TABLE client
 (
     id   uuid    NOT NULL,

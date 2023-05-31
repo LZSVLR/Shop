@@ -6,8 +6,8 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/shop
-    username: postgres
-    password: user
+    username: root
+    password: 123
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
@@ -16,6 +16,8 @@ spring:
       ddl-auto: none
 
   flyway:
-    user: postgres
-    password: user
+    schemas: public
+    locations: db/migration
+    user: root
+    password: 123
     url: jdbc:postgresql://localhost:5432/shop

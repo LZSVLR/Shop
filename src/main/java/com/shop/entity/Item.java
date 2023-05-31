@@ -1,21 +1,27 @@
 package com.shop.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.Set;
 import java.util.UUID;
-import lombok.Data;
 
-;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
 
 @Entity
-@Table(name = "items")
+@Table(name = "item")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Item {
   @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
   @Column(name = "id")
   private UUID id;
 

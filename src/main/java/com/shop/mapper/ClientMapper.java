@@ -8,6 +8,7 @@ import com.shop.entity.Client;
 import org.springframework.stereotype.Component;
 
 @Component
+//map struct
 public class ClientMapper {
 
   //Преобразует клиента в ДТОшку

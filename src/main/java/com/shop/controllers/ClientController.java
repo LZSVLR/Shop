@@ -22,9 +22,12 @@ public class ClientController {
 
   private final ClientService clientService;
 
+  //Spring Error Handler for Http (ResponseEntity)
   @PostMapping
   public ResponseEntity<ResponseClientDto> create(@RequestBody
                                                   RequestCreateClientDto createClientDto) {
+    // обработать кейс,когда имя клиента == null.
+    // Сделать  это через ErrorHandler и custom exception
     return ResponseEntity.ok(clientService.createClient(createClientDto));
   }
 

@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ItemMapper {
-    public ResponseItemDto map(Item item)
+    public ItemDto map(Item item)
     {
-        return ResponseItemDto.builder()
+        return ItemDto.builder()
                 .id(item.getId())
                 .name(item.getName())
                 .price(item.getPrice())
@@ -17,17 +17,11 @@ public class ItemMapper {
 
     }
     //Преобразует переданную стороннюю ДТОшку в item
-    public Item map(RequestCreateItemDto requestCreateItemDto) {
+    public Item map(ItemDto requestCreateItemDto) {
         return Item.builder()
                 .name(requestCreateItemDto.getName())
                 .price(requestCreateItemDto.getPrice())
                 .build();
     }
-    //Обновляем
-    public Item map(RequestUpdateItemDto requestUpdateItemDto) {
-        return Item.builder()
-                .name(requestUpdateItemDto.getName())
-                .price(requestUpdateItemDto.getPrice())
-                .build();
-    }
+
 }

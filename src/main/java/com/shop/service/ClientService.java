@@ -1,13 +1,13 @@
 package com.shop.service;
 
-import com.shop.dto.RequestCreateClientDto;
-import com.shop.dto.RequestUpdateClientDto;
-import com.shop.dto.ResponseClientDto;
+import com.shop.dto.ClientDto;
+
 import com.shop.entity.Client;
+import com.shop.exception.EntityNotFoundException;
 import com.shop.mapper.ClientMapper;
 import com.shop.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,25 +25,27 @@ public class ClientService {
 
 
   //создание клиента
-  public ResponseClientDto createClient(RequestCreateClientDto createClientDto) {
+  public ClientDto createClient(ClientDto createClientDto) {
     Client created = clientRepository.save(clientMapper.map(createClientDto));
     return clientMapper.map(created);
   }
 
   //вывод объектов базы данных в виде дто списком
-  public List<ResponseClientDto> showClients() {
+  public List<ClientDto> showClients() {
     return clientRepository.findAll().stream().map(clientMapper::map).collect(Collectors.toList());
   }
   //обновление клиента
-  public ResponseClientDto updateClient(RequestUpdateClientDto updateClientDto)
+  @Transactional
+  public ClientDto updateClient(ClientDto updateClientDto)
   {
-    //можно через if
-    //try catch вернуть custom exception if client does not exist
-    // update via client repository custom query
-    Client updated = clientRepository.findById(updateClientDto.getId()).orElse(null);
-    assert updated != null;
-    updated.setName(updateClientDto.getName());
-    return clientMapper.map(updated);
+    //не проходит проверка
+    if(clientRepository.findById(updateClientDto.getId()).isEmpty())
+    {
+      throw new EntityNotFoundException("Invalid ID, client was not found.");
+    }
+   clientRepository.updateNameById(updateClientDto.getName(), updateClientDto.getId());
+
+    return updateClientDto;
   }
   //удаление клиента
   public void delete(UUID id){clientRepository.deleteById(id);}

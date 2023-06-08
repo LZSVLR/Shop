@@ -2,10 +2,12 @@ package com.shop.service;
 
 import com.shop.dto.*;
 import com.shop.entity.Item;
+import com.shop.exception.EntityNotFoundException;
 import com.shop.mapper.ItemMapper;
 import com.shop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,25 +22,27 @@ public class ItemService {
 
 
     //создание клиента
-    public ResponseItemDto createItem(RequestCreateItemDto createItemDto) {
+    public ItemDto createItem(ItemDto createItemDto) {
         Item created = itemRepository.save(itemMapper.map(createItemDto));
         return itemMapper.map(created);
     }
 
     //вывод объектов базы данных в виде дто списком
-    public List<ResponseItemDto> showItems()
+    public List<ItemDto> showItems()
     {
         return itemRepository.findAll().stream().map(itemMapper::map).collect(Collectors.toList());
     }
    // обновление клиента
-    public ResponseItemDto updateItem(RequestUpdateItemDto updateItemDto)
+    @Transactional
+    public ItemDto updateItem(ItemDto updateItemDto)
     {
-        //можно через if
-        Item updated = itemRepository.findById(updateItemDto.getId()).orElse(null);
-        assert updated != null;
-        updated.setName(updateItemDto.getName());
-        itemRepository.save(updated);
-        return itemMapper.map(updated);
+        //не проходит проверка
+        if(itemRepository.findById(updateItemDto.getId()).isEmpty())
+        {
+            throw new EntityNotFoundException("Invalid ID, item was not found.");
+        }
+        itemRepository.updateNameById(updateItemDto.getName(), updateItemDto.getId());
+        return updateItemDto;
     }
     //удаление клиента
     public void delete(UUID id){itemRepository.deleteById(id);}

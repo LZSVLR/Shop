@@ -31,6 +31,7 @@ public class Item {
   @Column(name = "price")
   private Double price;
 
+  //Не разобрался до конца
   @ManyToMany(mappedBy = "items")
   private Set<Client> clients;
 

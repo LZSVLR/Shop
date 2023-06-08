@@ -1,14 +1,14 @@
 package com.shop.controllers;
 
-import com.shop.dto.RequestCreateClientDto;
-import com.shop.dto.RequestUpdateClientDto;
-import com.shop.dto.ResponseClientDto;
-import com.shop.entity.Client;
+import com.shop.dto.ClientDto;
+
+import com.shop.exception.CreateValidationException;
 import com.shop.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,17 +24,25 @@ public class ClientController {
 
   //Spring Error Handler for Http (ResponseEntity)
   @PostMapping
-  public ResponseEntity<ResponseClientDto> create(@RequestBody
-                                                  RequestCreateClientDto createClientDto) {
+  public ResponseEntity<ClientDto> create(@RequestBody
+                                                  ClientDto createClientDto)  {
+    if(createClientDto.getName() == null)
+    {
+      throw new CreateValidationException("Name can't be null");
+    }
+
     // обработать кейс,когда имя клиента == null.
     // Сделать  это через ErrorHandler и custom exception
+
     return ResponseEntity.ok(clientService.createClient(createClientDto));
   }
 
   //Обновление
+  @Transactional
   @PutMapping
-  public ResponseEntity<ResponseClientDto> update(@RequestBody RequestUpdateClientDto updateClient)
+  public ResponseEntity<ClientDto> update(@RequestBody ClientDto updateClient)
   {
+
     return ResponseEntity.ok(clientService.updateClient(updateClient));
   }
 
@@ -47,7 +55,7 @@ public class ClientController {
   }
   //Вывод всех
   @GetMapping
-  public ResponseEntity<List<ResponseClientDto>> showClients()
+  public ResponseEntity<List<ClientDto>> showClients()
   {
     return ResponseEntity.ok(clientService.showClients());
   }
